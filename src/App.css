@@ -1,0 +1,338 @@
+/* Global Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: Georgia, 'Times New Roman', serif;
+  background: url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920') center/cover no-repeat fixed;
+  color: #fff;
+  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+}
+
+.app {
+  max-width: 960px;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 10px 40px rgba(255, 255, 255, 0.3);
+  border: 2px solid #fff;
+  border-radius: 15px;
+  animation: fadeIn 0.6s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.header h1 {
+  color: #fff;
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  border-bottom: 3px solid #fff;
+  padding-bottom: 10px;
+  animation: slideDown 0.5s ease;
+}
+
+@keyframes slideDown {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Container */
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Sections */
+.section {
+  background: rgba(0, 0, 0, 0.6);
+  border: 2px solid #fff;
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 10px;
+  transition: transform 0.3s, box-shadow 0.3s;
+  animation: slideIn 0.5s ease;
+}
+
+.section:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+.section h2 {
+  color: #fff;
+  margin-bottom: 15px;
+  font-size: 1.4rem;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 8px;
+}
+
+/* Input Groups */
+.input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 15px;
+  justify-content: center;
+}
+
+.input-group input,
+.input-group select {
+  padding: 8px;
+  border: 2px solid #fff;
+  border-radius: 5px;
+  font-size: 1rem;
+  flex: 1;
+  min-width: 150px;
+  background: rgba(26, 26, 26, 0.8);
+  color: #fff;
+  transition: all 0.3s;
+}
+
+.input-group input:focus,
+.input-group select:focus {
+  outline: none;
+  border-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.7);
+  transform: scale(1.02);
+}
+
+.input-group button {
+  padding: 8px 16px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+}
+
+.input-group button:hover {
+  background: #ddd;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.6);
+}
+
+/* Lists */
+.list {
+  list-style: none;
+  padding: 0;
+}
+
+.list li {
+  padding: 10px;
+  margin-bottom: 8px;
+  background: rgba(26, 26, 26, 0.8);
+  border: 2px solid #fff;
+  border-radius: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  transition: all 0.3s;
+  animation: fadeInUp 0.4s ease;
+}
+
+.list li:hover {
+  transform: translateX(5px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.5);
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.expense-item button {
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 4px 8px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.expense-item button:hover {
+  background: #ddd;
+  transform: scale(1.1);
+  box-shadow: 0 4px 10px rgba(255, 255, 255, 0.6);
+}
+
+/* Balance Colors */
+.positive {
+  color: #00ff00;
+  font-weight: bold;
+}
+
+.negative {
+  color: #ff0000;
+  font-weight: bold;
+}
+
+/* Login Page Styles */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
+  min-height: 100vh;
+  background: url('https://images.unsplash.com/photo-1419242902214-272b3f66ee7a?w=1920') center/cover no-repeat fixed;
+  position: fixed;
+  top: 0;
+  left: 0;
+}
+
+.login-form {
+  background: rgba(0, 0, 0, 0.8);
+  padding: 40px;
+  border: 3px solid #fff;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(255, 255, 255, 0.3);
+  animation: bounceIn 0.8s ease;
+}
+
+@keyframes bounceIn {
+  0% { opacity: 0; transform: scale(0.3); }
+  50% { opacity: 1; transform: scale(1.05); }
+  70% { transform: scale(0.9); }
+  100% { transform: scale(1); }
+}
+
+.login-form h2 {
+  color: #fff;
+  margin-bottom: 30px;
+  font-size: 2rem;
+  border-bottom: 3px solid #fff;
+  padding-bottom: 10px;
+  animation: pulse 2s ease infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+.login-form .input-group {
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid #fff;
+  border-radius: 8px;
+  font-size: 1rem;
+  background: rgba(26, 26, 26, 0.8);
+  color: #fff;
+  transition: all 0.3s;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: #fff;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.7);
+  transform: scale(1.02);
+}
+
+.login-form button {
+  width: 100%;
+  padding: 12px;
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 6px 20px rgba(255, 255, 255, 0.4);
+}
+
+.login-form button:hover {
+  background: #ddd;
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.6);
+}
+
+.error {
+  color: #ff0000;
+  margin-bottom: 15px;
+  animation: shake 0.5s ease;
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-10px); }
+  75% { transform: translateX(10px); }
+}
+
+.hint {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 0.9rem;
+  font-style: italic;
+  animation: fadeIn 1s ease;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  .app {
+    padding: 10px;
+  }
+
+  .header h1 {
+    font-size: 2rem;
+  }
+
+  .input-group {
+    flex-direction: column;
+  }
+
+  .input-group input,
+  .input-group select,
+  .input-group button {
+    width: 100%;
+  }
+
+  .login-container {
+    padding: 20px;
+  }
+
+  .login-form {
+    padding: 30px 20px;
+  }
+
+  .login-form h2 {
+    font-size: 1.8rem;
+  }
+}
