@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Job Application Form</title>
+    <style>
+        body {
+            background: #e8eef3;
+            font-family: Arial, sans-serif;
+            padding: 40px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #1f4e8c;
+        }
+
+        form {
+            max-width: 450px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        label {
+            font-weight: bold;
+            margin-top: 15px;
+            display: block;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #888;
+            border-radius: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 20px;
+            font-size: 16px;
+            background-color: #1f4e8c;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #163b66;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h2>Job Application Form</h2>
+
+    <form>
+
+        <!-- 1. Name -->
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter your name" required>
+
+        <!-- 2. Email -->
+        <label>Email</label>
+        <input type="email" placeholder="Enter your email" required>
+
+        <!-- 3. Qualification -->
+        <label>Qualification</label>
+        <select required>
+            <option>Select Qualification</option>
+            <option>Bachelor's Degree</option>
+            <option>Master's Degree</option>
+            <option>Diploma</option>
+            <option>PhD</option>
+            <option>Other</option>
+        </select>
+
+        <!-- 4. Job Applying For -->
+        <label>Job Role</label>
+        <select required>
+            <option>Select Job Role</option>
+            <option>Software Developer</option>
+            <option>Data Analyst</option>
+            <option>Tester</option>
+            <option>UI/UX Designer</option>
+            <option>HR Executive</option>
+        </select>
+
+        <!-- 5. Phone -->
+        <label>Phone Number</label>
+        <input type="tel" placeholder="Enter phone number" required>
+
+        <button type="submit">Submit Application</button>
+    </form>
+
+</body>
+</html>
