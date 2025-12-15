@@ -304,6 +304,60 @@ body {
   animation: fadeIn 1s ease;
 }
 
+.success {
+  color: #00ff00;
+  margin-bottom: 15px;
+  animation: fadeIn 0.5s ease;
+}
+
+.register-link {
+  margin-top: 20px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.link-button {
+  background: none;
+  border: none;
+  color: #fff;
+  text-decoration: underline;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 5px;
+  transition: color 0.3s;
+}
+
+.link-button:hover {
+  color: #ddd;
+}
+
+.user-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 10px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+}
+
+.logout-btn {
+  background: #fff;
+  color: #000;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: bold;
+  transition: all 0.3s;
+}
+
+.logout-btn:hover {
+  background: #ddd;
+  transform: translateY(-2px);
+}
+
 /* Responsive Design */
 @media (max-width: 600px) {
   .app {
@@ -334,5 +388,11 @@ body {
 
   .login-form h2 {
     font-size: 1.8rem;
+  }
+
+  .user-info {
+    flex-direction: column;
+    gap: 10px;
+    text-align: center;
   }
 }

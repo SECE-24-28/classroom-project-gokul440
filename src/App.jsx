@@ -1,25 +1,34 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 import './App.css'
 
-function Login({ onLogin }) {
+const API_BASE_URL = 'http://localhost:3001/api'
+
+function Login({ onLogin, onSwitchToRegister }) {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault()
     setIsLoading(true)
     setError('')
-    // Simulate loading time
-    setTimeout(() => {
-      if (username === 'admin' && password === 'admin') {
-        onLogin()
-      } else {
-        setError('Invalid credentials')
-        setIsLoading(false)
-      }
-    }, 1000)
+    
+    try {
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, {
+        username,
+        password
+      })
+      
+      localStorage.setItem('token', response.data.token)
+      localStorage.setItem('user', JSON.stringify(response.data.user))
+      onLogin(response.data.user)
+    } catch (error) {
+      setError(error.response?.data?.error || 'Login failed')
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -34,6 +43,7 @@ function Login({ onLogin }) {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           <div className="input-group">
@@ -43,18 +53,110 @@ function Login({ onLogin }) {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              disabled={isLoading}
             />
           </div>
           {error && <p className="error">{error}</p>}
-          <button type="submit">Login</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? 'Logging in...' : 'Login'}
+          </button>
         </form>
-        <p className="hint">Use admin/admin to login</p>
+        <p className="register-link">
+          Don't have an account? 
+          <button type="button" onClick={onSwitchToRegister} className="link-button">
+            Register here
+          </button>
+        </p>
       </div>
     </div>
   )
 }
 
-function ExpenseSplitter() {
+function Register({ onSwitchToLogin }) {
+  const [username, setUsername] = useState('')
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const [success, setSuccess] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+
+  const handleRegister = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError('')
+    setSuccess('')
+    
+    try {
+      await axios.post(`${API_BASE_URL}/auth/register`, {
+        username,
+        email,
+        password
+      })
+      
+      setSuccess('Registration successful! You can now login.')
+      setTimeout(() => {
+        onSwitchToLogin()
+      }, 2000)
+    } catch (error) {
+      setError(error.response?.data?.error || 'Registration failed')
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  return (
+    <div className="login-container">
+      <div className="login-form">
+        <h2>Register for Expense Splitter</h2>
+        <form onSubmit={handleRegister}>
+          <div className="input-group">
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              disabled={isLoading}
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={isLoading}
+            />
+          </div>
+          <div className="input-group">
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={isLoading}
+            />
+          </div>
+          {error && <p className="error">{error}</p>}
+          {success && <p className="success">{success}</p>}
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? 'Registering...' : 'Register'}
+          </button>
+        </form>
+        <p className="register-link">
+          Already have an account? 
+          <button type="button" onClick={onSwitchToLogin} className="link-button">
+            Login here
+          </button>
+        </p>
+      </div>
+    </div>
+  )
+}
+
+function ExpenseSplitter({ user, onLogout }) {
   const [participants, setParticipants] = useState([])
   const [expenses, setExpenses] = useState([])
   const [newParticipant, setNewParticipant] = useState('')
@@ -122,6 +224,10 @@ function ExpenseSplitter() {
     <div className="app">
       <header className="header">
         <h1>Expense Splitter</h1>
+        <div className="user-info">
+          <span>Welcome, {user.username}!</span>
+          <button onClick={onLogout} className="logout-btn">Logout</button>
+        </div>
       </header>
 
       <div className="container">
@@ -204,14 +310,44 @@ function ExpenseSplitter() {
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [user, setUser] = useState(null)
+  const [showRegister, setShowRegister] = useState(false)
 
-  const handleLogin = () => {
+  useEffect(() => {
+    const token = localStorage.getItem('token')
+    const savedUser = localStorage.getItem('user')
+    if (token && savedUser) {
+      setUser(JSON.parse(savedUser))
+      setIsLoggedIn(true)
+    }
+  }, [])
+
+  const handleLogin = (userData) => {
+    setUser(userData)
     setIsLoggedIn(true)
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    setUser(null)
+    setIsLoggedIn(false)
+  }
+
+  const switchToRegister = () => setShowRegister(true)
+  const switchToLogin = () => setShowRegister(false)
+
+  if (isLoggedIn && user) {
+    return <ExpenseSplitter user={user} onLogout={handleLogout} />
   }
 
   return (
     <div>
-      {isLoggedIn ? <ExpenseSplitter /> : <Login onLogin={handleLogin} />}
+      {showRegister ? (
+        <Register onSwitchToLogin={switchToLogin} />
+      ) : (
+        <Login onLogin={handleLogin} onSwitchToRegister={switchToRegister} />
+      )}
     </div>
   )
 }
