@@ -177,25 +177,46 @@ function ExpenseSplitter({ user, onLogout }) {
       }, 500)
     }
   }
-  const addExpense = () => {
-    if (expenseDesc.trim() && expenseAmount && expensePaidBy) {
+  const addExpense = async () => {
+    if (expenseDesc.trim() && expenseAmount && expensePaidBy && participants.length > 0) {
       const amount = parseFloat(expenseAmount)
       if (amount > 0) {
         setIsAddingExpense(true)
-        // Simulate loading time
-        setTimeout(() => {
-          setExpenses([...expenses, {
-            id: Date.now(),
+        
+        const newExpense = {
+          id: Date.now(),
+          description: expenseDesc.trim(),
+          amount,
+          paidBy: expensePaidBy
+        }
+        
+        // Add to local state first
+        setExpenses([...expenses, newExpense])
+        
+        // Try to save to MongoDB Atlas
+        try {
+          const token = localStorage.getItem('token')
+          await axios.post(`${API_BASE_URL}/expenses`, {
             description: expenseDesc.trim(),
             amount,
-            paidBy: expensePaidBy
-          }])
-          setExpenseDesc('')
-          setExpenseAmount('')
-          setExpensePaidBy('')
-          setIsAddingExpense(false)
-        }, 500)
+            paidBy: expensePaidBy,
+            participants
+          }, {
+            headers: token ? { Authorization: `Bearer ${token}` } : {}
+          })
+          console.log('✅ Expense saved to MongoDB Atlas')
+        } catch (error) {
+          console.error('❌ Error saving to MongoDB:', error.response?.data || error.message)
+          // Keep the expense in local state even if MongoDB fails
+        }
+        
+        setExpenseDesc('')
+        setExpenseAmount('')
+        setExpensePaidBy('')
+        setIsAddingExpense(false)
       }
+    } else {
+      alert('Please fill all fields and add at least one participant')
     }
   }
   const removeExpense = (id) => {
@@ -275,7 +296,10 @@ function ExpenseSplitter({ user, onLogout }) {
               <option value="">Paid by</option>
               {participants.map((p, i) => <option key={i} value={p}>{p}</option>)}
             </select>
-            <button onClick={addExpense} disabled={isAddingExpense}>
+            <button 
+              onClick={addExpense} 
+              disabled={isAddingExpense || participants.length === 0 || !expenseDesc.trim() || !expenseAmount || !expensePaidBy}
+            >
               {isAddingExpense ? 'Adding...' : 'Add Expense'}
             </button>
           </div>
